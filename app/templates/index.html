@@ -1,0 +1,79 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<section class="banner_w3lspvt" id="home">
+	<div class="csslider infinity" id="slider1">
+	
+				<div class="banner-top">
+					<div class="overlay">
+						<div class="container">
+							<div class="w3layouts-banner-info text-center">
+								<h3 >AgroGuide</h3>
+								<h4 class="text-wh mx-auto my-4"><b>Navigating smarter farming solutions</b></h4>
+								<br>
+								<h4 class="text-wh mx-auto my-4" ><strong>Smart farming begins with understanding your soil. Achieve better growth, save costs, and cultivate a sustainable harvest with data-powered insights.</strong></h4>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+	</div>
+</section>
+
+<section class="core-value py-5">
+	<div class="container py-md-4">
+		<h3 class="heading mb-sm-5 mb-15 text-center">OUR OBJECTIVE</h3>
+		<div class="row core-grids">
+			<div class="col-lg-6 core-left">
+				<img src="{{ url_for('static', filename='images/photo.jpg') }}" class="img-fluid" alt="" />
+			</div>
+			<div class="col-lg-6 core-right">
+				<h3 class="mt-4">The Perfect Crop, The Right Nutrients, Supporting Sustainable Agriculture for Every Farmer"
+				</h3>
+				<p class="mt-3">Farmers can maximize crop yields, improve soil health, and reduce wastage, ensuring that the right amount of nutrients is used at the right time by using fertilizer predictor instead of relying on traditional knowledge passed over generations.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+<section class="blog py-5"  >
+	<div class="container py-md-5" >
+		<h3 class="heading mb-sm-5 mb-4 text-center"> Our Services</h3>
+		<div class="row blog-grids">
+			<div class="col-lg-6 col-md-4 blog-left mb-lg-0 mb-sm-5 pb-lg-0 pb-5 mt-0">	
+				<a href="{{ url_for('crop_recommend') }}">
+					<div class="blog-info" style="background-color: #FFE4E1; margin-top:-200px">
+
+						<h4>Crop Predictor</h4>
+						<p class="mt-2"> Recommendation about the type of crops to be cultivated which is best suited
+							for the respective conditions</p>
+					</div>
+				</a>
+			</div>
+			<div class="col-lg-6 col-md-2 blog-middle mb-lg-0 mb-sm-5 pb-lg-0 pb-md-5" style="margin-top: 5rem;">
+				
+				<a href="{{ url_for('fertilizer_recommendation') }}">
+					<div class="blog-info" style="background-color : #FAEBD7;" >
+						<h4>Fertilizer Predictor</h4>
+						<p class="mt-2">Recommendation about the type of fertilizer best suited for the particular soil
+							and the recommended crop</p>
+					</div>
+				</a>
+			</div>
+			
+		</div>
+	</div>
+</section> 
+
+
+<footer style="margin-top: 18rem;"> 
+
+</footer>
+
+
+
+</html>
+
+{% endblock %}

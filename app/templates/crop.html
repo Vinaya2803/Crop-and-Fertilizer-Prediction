@@ -1,0 +1,218 @@
+{% extends 'layout.html' %} {% block body %}
+
+<style>
+  html,
+  body {
+    background-color: #fff5ee;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+  .navbar {
+    min-height: 30px; /* Adjust this value as needed */
+    padding: 0.5rem 1rem; /* Fine-tune for better alignment */
+  }
+  .container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  h2 {
+    text-align: center;
+    margin: 0;
+    color: brown;
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+
+  .form-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 40px auto;
+    background-color: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-group label {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .form-group input,
+  .form-group select {
+    font-weight: bold;
+    color: black;
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+  }
+
+  .form-group input[type="number"],
+  .form-group select {
+    font-size: 16px;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 20px;
+  }
+
+  .form-row .form-group {
+    flex: 1;
+  }
+
+  .btn-info {
+    color: white;
+    background-color: #007bff;
+    border-color: #007bff;
+    font-weight: bold;
+    width: 50%;
+    height: 50px;
+    border-radius: 8px;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-left: 110px;
+    cursor: pointer;
+  }
+
+  .btn-info:hover {
+    background-color: black;
+    border-color: #0056b3;
+  }
+
+  /* Ensuring the form fits within the viewport */
+  @media (max-width: 768px) {
+    .form-container {
+      padding: 20px;
+      width: 90%;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: black;
+    }
+
+    .btn-info {
+      font-size: 18px;
+    }
+
+    .form-row {
+      flex-direction: column;
+    }
+
+    .form-row .form-group {
+      margin-bottom: 15px;
+    }
+  }
+</style>
+
+<div class="container">
+  <h2><b>Predict the most suitable crop to grow in your farm</b></h2>
+
+  <div class="form-container">
+    <form method="POST" action="{{ url_for('crop_prediction') }}">
+      <div class="form-group">
+        <label for="Nitrogen"><b>Nitrogen</b></label>
+        <input
+          type="number"
+          class="form-control"
+          id="Nitrogen"
+          name="nitrogen"
+          placeholder="Enter the value"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="Phosphorous"><b>Phosphorous</b></label>
+        <input
+          type="number"
+          class="form-control"
+          id="Phosphorous"
+          name="phosphorous"
+          placeholder="Enter the value"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="Pottasium"><b>Pottasium</b></label>
+        <input
+          type="number"
+          class="form-control"
+          id="Pottasium"
+          name="pottasium"
+          placeholder="Enter the value"
+          required
+        />
+      </div>
+
+      <!-- Align pH and Rainfall on the same line -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="ph"><b>pH Level</b></label>
+          <input
+            type="number"
+            step="0.01"
+            class="form-control"
+            id="ph"
+            name="ph"
+            placeholder="Enter the value"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="Rainfall"><b>Rainfall (in mm)</b></label>
+          <input
+            type="number"
+            step="0.01"
+            class="form-control"
+            id="Rainfall"
+            name="rainfall"
+            placeholder="Enter the value"
+            required
+          />
+        </div>
+      </div>
+
+      <!-- Align State and City on the same line -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="State"><b>State</b></label>
+          <select
+            onchange="print_city('state', this.selectedIndex);"
+            id="sts"
+            name="stt"
+            class="form-control"
+            required
+          ></select>
+        </div>
+        <div class="form-group">
+          <label for="City"><b>City</b></label>
+          <select id="state" class="form-control" name="city" required></select>
+          <script language="javascript">
+            print_state("sts");
+          </script>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-info">Predict</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
