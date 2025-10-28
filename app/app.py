@@ -12,7 +12,6 @@ from torchvision import transforms
 from PIL import Image
 
 
-
 crop_recommendation_model_path = "models/RandomForest.pkl"
 crop_recommendation_model = pickle.load(open(crop_recommendation_model_path, "rb"))
 
@@ -72,22 +71,37 @@ def crop_prediction():
         K = int(request.form["pottasium"])
         ph = float(request.form["ph"])
         rainfall = float(request.form["rainfall"])
-
         city = request.form.get("city")
+
+        print(
+            f"\nReceived Inputs => N:{N}, P:{P}, K:{K}, pH:{ph}, Rainfall:{rainfall}, City:{city}"
+        )
+
+        result = weather_fetch(city)
+        print("Weather API Result:", result)
 
         if weather_fetch(city) != None:
             temperature, humidity = weather_fetch(city)
             data = np.array([[N, P, K, temperature, humidity, ph, rainfall]])
+            print("Input array for model:", data)
             my_prediction = crop_recommendation_model.predict(data)
             final_prediction = my_prediction[0]
 
+            print("Predicted Crop:", final_prediction)
             return render_template(
                 "crop-result.html", prediction=final_prediction, title=title
             )
 
         else:
-
+            print("⚠️ Weather fetch returned None")
             return render_template("try_again.html", title=title)
+            # return render_template(
+            #     "crop-result.html", prediction=final_prediction, title=title
+            # )
+
+        # else:
+
+        #     return render_template("try_again.html", title=title)
 
 
 @app.route("/fertilizer-predict", methods=["POST"])
@@ -103,7 +117,11 @@ def fert_recommend():
         df = pd.read_csv("Data/fertilizer.csv")
 
         if crop_name not in df["Crop"].values:
-            return render_template("fertilizer-result.html", recommendation="No fertilizer found for this crop", title=title)
+            return render_template(
+                "fertilizer-result.html",
+                recommendation="No fertilizer found for this crop",
+                title=title,
+            )
 
         nr = df[df["Crop"] == crop_name]["N"].iloc[0]
         pr = df[df["Crop"] == crop_name]["P"].iloc[0]
@@ -124,12 +142,17 @@ def fert_recommend():
 
         response = Markup(str(fertilizer_dic[key]))
 
-        return render_template("fertilizer-result.html", recommendation=response, title=title)
+        return render_template(
+            "fertilizer-result.html", recommendation=response, title=title
+        )
 
     except Exception as e:
         print(f"Error: {e}")
-        return render_template("fertilizer-result.html", recommendation="An error occurred. Please try again.", title=title)
-
+        return render_template(
+            "fertilizer-result.html",
+            recommendation="An error occurred. Please try again.",
+            title=title,
+        )
 
 
 if __name__ == "__main__":
